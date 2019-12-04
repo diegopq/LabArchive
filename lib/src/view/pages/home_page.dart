@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lab_archive/src/view/widgets/no_class_body.dart';
+import 'package:lab_archive/utils/size_config.dart';
 
 class HomePage extends StatefulWidget {
+  static final String namePage = 'HomePage';
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -90,75 +93,81 @@ class _HomePageState extends State<HomePage>
             borderRadius: BorderRadius.all(
               Radius.circular(15),
             ),
-            child: Column(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFF82E6F4),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                      ),
-                      width: double.infinity,
-                      height: 90.0,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            IconButton(
-                              padding: EdgeInsets.only(left: 20.0),
-                              icon: Icon(
-                                IconData(0xe900, fontFamily: 'MenuIcon'),
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  if (isCollapsed) {
-                                    _controller.forward();
-                                  } else {
-                                    _controller.reverse();
-                                  }
-                                  isCollapsed = !isCollapsed;
-                                  print(isCollapsed);
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              width: screenWidth / 5,
-                            ),
-                            Text(
-                              'DashBoard',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2.0,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: ClampingScrollPhysics(),
-                  child: Container(
-                    color: Colors.red,
+            child: Scaffold(
+              floatingActionButton: _floatingButton(),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
                   ),
-                )
-              ],
+                ),
+                backgroundColor: Color(0xFF82E6F4),
+                leading: IconButton(
+                  icon: Icon(
+                    IconData(0xe900, fontFamily: 'MenuIcon'),
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if (isCollapsed) {
+                        _controller.forward();
+                      } else {
+                        _controller.reverse();
+                      }
+                      isCollapsed = !isCollapsed;
+                      print(isCollapsed);
+                    });
+                  },
+                ),
+                title: Text(
+                  'DashBoard',
+                  style: TextStyle(
+                      fontSize: 5.37 * SizeConfig.textMultiplier,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2.0,
+                      color: Colors.white),
+                ),
+              ),
+              body: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 4.08 * SizeConfig.widthMultiplier),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: NoClassBody()),
             ),
           ),
         ),
       ),
     );
   }
-}
+
+  Widget _floatingButton() {
+    return FloatingActionButton.extended(
+      label: Container(
+        width: 38.26 * SizeConfig.widthMultiplier,
+        child: Text(
+          'Agregar curso',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 4.59 * SizeConfig.textMultiplier),
+        ),
+      ),
+      backgroundColor: Color(0xFF029EB4),
+      onPressed: () {
+        Navigator.pushNamed(context, 'CreateSubjectPage');
+      },
+    );
+  }
+
+  //TODO: hacer un metodo que cambie el body
+
+} //fin de la clase

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lab_archive/src/view/pages/home_page.dart';
 import 'package:lab_archive/src/view/pages/login_page.dart';
+import 'package:lab_archive/utils/routes.dart';
 import 'package:lab_archive/utils/size_config.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(fontFamily: 'SourceSansPro'),
               title: 'LabArchive',
               home: InitPage(),
+              onGenerateRoute: RouteGenerator.generateRoute,
             );
           },
         );
@@ -34,6 +36,6 @@ class MyApp extends StatelessWidget {
 class InitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LoginPage();
+    return HomePage();
   }
 }

@@ -9,29 +9,38 @@ class TextFieldCustom extends StatelessWidget {
   final FocusNode focusNode;
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
   final bool obscureText;
+  final int maxLength;
 
-  TextFieldCustom(
-      {@required this.hintText,
-      this.validator,
-      this.onSave,
-      this.onSubmit,
-      this.focusNode,
-      this.textInputAction,
-      this.keyboardType = TextInputType.text,
-      this.obscureText = false,
-      t});
+  TextFieldCustom({
+    @required this.hintText,
+    this.validator,
+    this.onSave,
+    this.onSubmit,
+    this.focusNode,
+    this.textInputAction,
+    this.keyboardType = TextInputType.text,
+    this.textCapitalization = TextCapitalization.none,
+    this.obscureText = false,
+    this.maxLength,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: TextStyle(fontSize: 5.10 * SizeConfig.textMultiplier),
+      maxLength: maxLength,
+      textCapitalization: textCapitalization,
+      style: TextStyle(
+          fontSize: 5.10 * SizeConfig.textMultiplier, color: Colors.grey[600]),
       cursorColor: Color(0xFF299DAD),
       obscureText: obscureText,
       keyboardType: keyboardType,
       focusNode: focusNode,
       textInputAction: textInputAction,
       decoration: InputDecoration(
+        counterText: '',
+        counter: null,
         errorStyle: TextStyle(
           color: Colors.white,
         ),

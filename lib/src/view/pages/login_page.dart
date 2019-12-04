@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lab_archive/src/view/pages/home_page.dart';
+import 'package:lab_archive/src/view/pages/register_page.dart';
 import 'package:lab_archive/src/view/widgets/circle.dart';
 import 'package:lab_archive/src/view/widgets/text_field_custom.dart';
 import 'package:lab_archive/utils/conts.dart';
@@ -57,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Stack(
             children: <Widget>[
+              //circulo rojo
               Positioned(
                 left: -10.61 * SizeConfig.widthMultiplier,
                 top: -3.20 * SizeConfig.widthMultiplier,
@@ -70,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                   gradientEnd: Alignment.bottomRight,
                 ),
               ),
+              //circulo verde
               Positioned(
                 bottom: -7.65 * SizeConfig.widthMultiplier,
                 right: -20.40 * SizeConfig.widthMultiplier,
@@ -85,85 +89,88 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SafeArea(
-                child: SingleChildScrollView(
-                  child: Container(
-                    width: _width,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 5.10 * SizeConfig.widthMultiplier),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 6.44 * SizeConfig.heigthMultiplier,
+                child: Container(
+                  width: _width,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 5.10 * SizeConfig.widthMultiplier),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 6.44 * SizeConfig.heigthMultiplier,
+                      ),
+                      //titulo
+                      Text(
+                        'Login',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 6.92 * SizeConfig.textMultiplier,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 6.44 * SizeConfig.heigthMultiplier,
+                      ),
+                      //logo
+                      Container(
+                        child: Image.asset(
+                          imgLogo,
+                          height: 14.47 * SizeConfig.imageSizeMultiplier,
                         ),
-                        //titulo
-                        Text(
-                          'Login',
+                      ),
+                      SizedBox(
+                        height: 9.44 * SizeConfig.heigthMultiplier,
+                      ),
+                      //formulario
+                      loginForm(),
+                      SizedBox(
+                        height: 8.44 * SizeConfig.heigthMultiplier,
+                      ),
+                      //boton ingresar
+                      RaisedButton(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.30 * SizeConfig.widthMultiplier,
+                            vertical: 1.20 * SizeConfig.heigthMultiplier),
+                        color: Color(0xFF299DAD),
+                        child: Text(
+                          'Ingresar',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 6.92 * SizeConfig.textMultiplier,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 6.37 * SizeConfig.textMultiplier,
+                              fontWeight: FontWeight.w400),
                         ),
-                        SizedBox(
-                          height: 6.44 * SizeConfig.heigthMultiplier,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        //logo
-                        Container(
-                          child: Image.asset(
-                            imgLogo,
-                            height: 14.47 * SizeConfig.imageSizeMultiplier,
-                          ),
+                        onPressed: () {
+                          if (_loginFormKey.currentState.validate()) {
+                            _loginFormKey.currentState.save();
+                            print('iniciar sesion');
+                            print('email $_user');
+                            print('pass $_password');
+                            _loginFormKey.currentState.reset();
+                            Navigator.pushReplacementNamed(
+                                context, HomePage.namePage);
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 3.44 * SizeConfig.heigthMultiplier,
+                      ),
+                      //boton crear cuenta
+                      FlatButton(
+                        child: Text(
+                          'Crear una cuenta',
+                          style: TextStyle(
+                              fontSize: 3.59 * SizeConfig.textMultiplier),
                         ),
-                        SizedBox(
-                          height: 9.44 * SizeConfig.heigthMultiplier,
-                        ),
-                        //formulario
-                        loginForm(),
-                        SizedBox(
-                          height: 8.44 * SizeConfig.heigthMultiplier,
-                        ),
-                        RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.30 * SizeConfig.widthMultiplier,
-                              vertical: 1.20 * SizeConfig.heigthMultiplier),
-                          color: Color(0xFF299DAD),
-                          child: Text(
-                            'Ingresar',
-                            style: TextStyle(
-                                fontSize: 6.37 * SizeConfig.textMultiplier,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          onPressed: () {
-                            if (_loginFormKey.currentState.validate()) {
-                              _loginFormKey.currentState.save();
-                              print('iniciar sesion');
-                              print('email $_user');
-                              print('pass $_password');
-                              _loginFormKey.currentState.reset();
-                            }
-                          },
-                        ),
-                        SizedBox(
-                          height: 3.44 * SizeConfig.heigthMultiplier,
-                        ),
-                        FlatButton(
-                          child: Text(
-                            'Crear una cuenta',
-                            style: TextStyle(
-                                fontSize: 5.59 * SizeConfig.textMultiplier),
-                          ),
-                          textColor: Color(0xFF04398E),
-                          onPressed: () {
-                            //se activan las animaciones
-                            print('crear nueva cuenta');
-                          },
-                        )
-                      ],
-                    ),
+                        textColor: Color(0xFF04398E),
+                        onPressed: () {
+                          //se activan las animaciones y al finalizar se navega a registrar
+                          print('crear nueva cuenta');
+                          Navigator.pushNamed(context, RegisterPage.namePage);
+                        },
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -184,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
             textInputAction: TextInputAction.done,
             hintText: 'Correo ó NUE',
             validator: (value) {
-              if (value == '' || !value.contains('@') || value.length < 6) {
+              if (value.isEmpty || !value.contains('@') || value.length < 6) {
                 return 'Ingresa un correo ó NUE válido';
               }
               return null;
@@ -205,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: true,
             hintText: 'Password',
             validator: (value) {
-              if (value == '' || value.length < 8) {
+              if (value.isEmpty || value.length < 8) {
                 return 'Ingresa mínimo 8 caracteres';
               }
               return null;
