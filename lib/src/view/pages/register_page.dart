@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lab_archive/src/model/api/auth_api.dart';
 import 'package:lab_archive/src/model/user_model.dart';
 import 'package:lab_archive/src/view/pages/home_page.dart';
 import 'package:lab_archive/src/view/pages/login_page.dart';
 import 'package:lab_archive/src/view/widgets/circle.dart';
 import 'package:lab_archive/src/view/widgets/text_field_custom.dart';
-import 'package:lab_archive/utils/conts.dart';
+import 'package:lab_archive/utils/dialogs.dart';
 import 'package:lab_archive/utils/size_config.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -17,13 +18,16 @@ class _RegisterPageState extends State<RegisterPage> {
   Size _size;
   double _width;
   double _height;
-  String _password;
   FocusNode _focusLastName;
   FocusNode _focusNue;
   FocusNode _focusEmail;
   FocusNode _focusPass;
   FocusNode _focusConfirmPass;
   UserModel _user = UserModel();
+  AuthAPI _auth = AuthAPI();
+
+  bool _isLoading = false;
+  bool _isLogued = false;
 
   final _registerFormKey = GlobalKey<FormState>();
 
@@ -147,11 +151,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () {
                             if (_registerFormKey.currentState.validate()) {
                               _registerFormKey.currentState.save();
+                              setState(() {
+                                _isLoading = true;
+                              });
                               print('iniciar sesion');
                               _user.showUserData();
                               _registerFormKey.currentState.reset();
-                              Navigator.pushReplacementNamed(
-                                  context, HomePage.namePage);
+                              //se trata de registrar al usuario
+                              _signUp(userData: _user);
                             }
                           },
                         ),
@@ -179,7 +186,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               onPressed: () {
                                 //se activan las animaciones
                                 print('Ingresar en cuenta');
-                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(
+                                    context, LoginPage.namePage);
                               },
                             )
                           ],
@@ -189,6 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+              loadingIndicator(),
             ],
           ),
         ),
@@ -332,5 +341,39 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
+  }
+
+  Widget loadingIndicator({double width, double height}) {
+    if (_isLoading) {
+      return Container(
+        color: Colors.black54.withOpacity(0.8),
+        width: width,
+        height: height,
+        child: Center(
+          child: CircularProgressIndicator(
+            backgroundColor: Colors.teal[400],
+            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF82E6F4)),
+            strokeWidth: 2.0,
+          ),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  void _signUp({UserModel userData}) async {
+    _isLogued = await _auth.register(userData: userData);
+    if (_isLogued) {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.pushReplacementNamed(context, HomePage.namePage);
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      Alerts.errorAlertRegisterOrLogin();
+    }
   }
 }

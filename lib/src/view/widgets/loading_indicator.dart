@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoadingIndicator extends StatelessWidget {
+class LoadingIndicatorCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LinearProgressIndicator(

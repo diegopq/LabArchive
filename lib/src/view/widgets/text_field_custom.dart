@@ -12,6 +12,7 @@ class TextFieldCustom extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final bool obscureText;
   final int maxLength;
+  final int maxLines;
 
   TextFieldCustom({
     @required this.hintText,
@@ -24,11 +25,13 @@ class TextFieldCustom extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.obscureText = false,
     this.maxLength,
+    this.maxLines,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       maxLength: maxLength,
       textCapitalization: textCapitalization,
       style: TextStyle(
